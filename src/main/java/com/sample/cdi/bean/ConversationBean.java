@@ -7,6 +7,7 @@ import com.test.ObserverEncaminhamentoDto;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,12 +25,17 @@ public class ConversationBean implements ObserverEncaminhamentoDto, Serializable
     private Conversation conversation;
 
     @Inject
-    private AbaEncaminhamento abaEncaminhamento=new AbaEncaminhamento(this);
+    private AbaEncaminhamento abaEncaminhamento;
 
     @Inject
     private HttpServletRequest request;
 
     private int counter;
+
+    @Produces
+    public AbaEncaminhamento pAbaEncaminhamento(){
+        return new AbaEncaminhamento(this);
+    }
 
     public ConversationBean() {
         LOGGER.info("[constructor] abaEncaminhamento=" + abaEncaminhamento + getUri());
