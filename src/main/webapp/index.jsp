@@ -1,0 +1,1 @@
+<jsp:forward page="/step1.xhtml"/>

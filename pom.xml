@@ -12,24 +12,59 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.org.jboss.spec.jboss.javaee8>1.0.1.Final-redhat-00001</version.org.jboss.spec.jboss.javaee8>
+		<version.jboss-eap-javaee8-with-tools>7.2.0.GA</version.jboss-eap-javaee8-with-tools>
+		<version.wildfly-maven-plugin>2.0.2.Final</version.wildfly-maven-plugin>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<wildfly.skip>false</wildfly.skip>
 	</properties>
 
 	<dependencies>
+		<dependency><groupId>javax.enterprise</groupId><artifactId>cdi-api</artifactId><scope>provided</scope></dependency>
+		<dependency><groupId>javax.inject</groupId><artifactId>javax.inject</artifactId><scope>provided</scope></dependency>
+		<dependency><groupId>org.jboss.spec.javax.faces</groupId><artifactId>jboss-jsf-api_2.3_spec</artifactId><scope>provided</scope></dependency>
 		<dependency>
-			<groupId>org.jboss.weld.servlet</groupId>
-			<artifactId>weld-servlet</artifactId>
-			<version>1.1.10.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.faces</artifactId>
-			<version>2.1.7</version>
+			<groupId>org.jboss.spec.javax.annotation</groupId>
+			<artifactId>jboss-annotations-api_1.3_spec</artifactId>
 		</dependency>
 	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency><groupId>org.jboss.spec</groupId><artifactId>jboss-javaee-8.0</artifactId><version>${version.org.jboss.spec.jboss.javaee8}</version><type>pom</type><scope>import</scope></dependency>
+			<dependency><groupId>org.jboss.bom</groupId><artifactId>jboss-eap-javaee8-with-tools</artifactId><version>${version.jboss-eap-javaee8-with-tools}</version><type>pom</type><scope>import</scope></dependency>
+			<dependency><groupId>org.jboss.bom</groupId><artifactId>jboss-eap-javaee8</artifactId><version>${version.jboss-eap-javaee8-with-tools}</version><type>pom</type><scope>import</scope></dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+	<build>
+		<finalName>cdi</finalName>
+		<resources>
+			<resource><directory>src/main/resources</directory><filtering>true</filtering><includes><include>**/*.xml</include><include>**/*.properties</include></includes></resource>
+			<resource><directory>src/main/resources</directory><filtering>false</filtering><excludes><exclude>**/*.xml</exclude><exclude>**/*.properties</exclude></excludes></resource>
+		</resources>
+		<plugins>
+			<plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.8.1</version></plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<webResources>
+						<resource>
+							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
+							<filtering>true</filtering>
+							<targetPath>WEB-INF</targetPath>
+							<includes>
+								<include>**/jboss-all.xml</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			<plugin><groupId>org.wildfly.plugins</groupId><artifactId>wildfly-maven-plugin</artifactId><version>${version.wildfly-maven-plugin}</version><configuration><skip>${wildfly.skip}</skip></configuration></plugin>
+		</plugins>
+	</build>
+
 </project>
