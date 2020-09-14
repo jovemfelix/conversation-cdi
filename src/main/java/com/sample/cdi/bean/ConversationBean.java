@@ -1,6 +1,8 @@
 package com.sample.cdi.bean;
 
 import com.test.AbaEncaminhamento;
+import com.test.ObservadorDto;
+import com.test.ObserverEncaminhamentoDto;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
@@ -14,7 +16,7 @@ import java.util.logging.Logger;
 
 @Named
 @ConversationScoped
-public class ConversationBean implements Serializable {
+public class ConversationBean implements ObserverEncaminhamentoDto, Serializable {
     private static final long serialVersionUID = 123;
     private static final Logger LOGGER = Logger.getLogger(ConversationBean.class.getName());
 
@@ -31,7 +33,6 @@ public class ConversationBean implements Serializable {
 
     public ConversationBean() {
         LOGGER.info("[constructor] abaEncaminhamento=" + abaEncaminhamento + getUri());
-        System.out.println("[constructor] abaEncaminhamento=" + abaEncaminhamento + getUri());
     }
 
     // Will only be called once
@@ -39,7 +40,7 @@ public class ConversationBean implements Serializable {
     @PostConstruct
     public void init() {
         counter = 0;
-        System.out.println("[init] abaEncaminhamento=" + abaEncaminhamento + getUri());
+        LOGGER.info("[init] abaEncaminhamento=" + abaEncaminhamento + getUri());
     }
 
     public void initConversation() {
@@ -66,7 +67,7 @@ public class ConversationBean implements Serializable {
     }
 
     public int getCounter() {
-        System.out.println("[counter] abaEncaminhamento=" + abaEncaminhamento + getUri());
+        LOGGER.info("[counter] abaEncaminhamento=" + abaEncaminhamento + getUri());
         return counter;
     }
 
@@ -83,5 +84,15 @@ public class ConversationBean implements Serializable {
             return " uri=NULL";
 
         return " uri=" + request.getRequestURI();
+    }
+
+    @Override
+    public void registrarObservador(ObservadorDto observadorDto) {
+        LOGGER.info("[counter] registrarObservador=" + observadorDto);
+    }
+
+    @Override
+    public void atualizarObservadores() {
+        LOGGER.info("[atualizarObservadores]" );
     }
 }
