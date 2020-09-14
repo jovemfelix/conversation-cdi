@@ -1,6 +1,7 @@
 package com.sample.cdi.bean;
 
 import com.test.AbaEncaminhamento;
+import com.test.EncaminhamentoWizard;
 import com.test.ObservadorDto;
 import com.test.ObserverEncaminhamentoDto;
 
@@ -27,12 +28,15 @@ public class ConversationBean implements ObserverEncaminhamentoDto, Serializable
     private AbaEncaminhamento abaEncaminhamento;
 
     @Inject
+    private EncaminhamentoWizard encaminhamentoWizard;
+
+    @Inject
     private HttpServletRequest request;
 
     private int counter;
 
     public ConversationBean() {
-        LOGGER.info("[constructor] abaEncaminhamento=" + abaEncaminhamento + getUri());
+        LOGGER.info("[constructor] abaEncaminhamento=" + abaEncaminhamento + " encaminhamentoWizard=" + encaminhamentoWizard + getUri());
     }
 
     // Will only be called once
@@ -40,7 +44,7 @@ public class ConversationBean implements ObserverEncaminhamentoDto, Serializable
     @PostConstruct
     public void init() {
         counter = 0;
-        LOGGER.info("[init] abaEncaminhamento=" + abaEncaminhamento + getUri());
+        LOGGER.info("[init] abaEncaminhamento=" + abaEncaminhamento  + " encaminhamentoWizard=" + encaminhamentoWizard + getUri());
         registrarObservador(abaEncaminhamento);
     }
 
@@ -68,7 +72,7 @@ public class ConversationBean implements ObserverEncaminhamentoDto, Serializable
     }
 
     public int getCounter() {
-        LOGGER.info("[counter] abaEncaminhamento=" + abaEncaminhamento + getUri());
+        LOGGER.info("[counter] abaEncaminhamento=" + abaEncaminhamento  + " encaminhamentoWizard=" + encaminhamentoWizard + getUri());
         return counter;
     }
 
@@ -89,7 +93,7 @@ public class ConversationBean implements ObserverEncaminhamentoDto, Serializable
 
     @Override
     public void registrarObservador(ObservadorDto observadorDto) {
-        LOGGER.info("[counter] registrarObservador=" + observadorDto);
+        LOGGER.info("[counter] registrarObservador=" + observadorDto + " encaminhamentoWizard=" + encaminhamentoWizard );
     }
 
     @Override
