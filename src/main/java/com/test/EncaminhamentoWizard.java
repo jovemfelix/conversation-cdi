@@ -7,10 +7,11 @@ import java.util.logging.Logger;
 public class EncaminhamentoWizard implements Serializable {
     private static final Logger LOGGER = Logger.getLogger(EncaminhamentoWizard.class.getName());
 
-    @Inject
-    private AbaEncaminhamento abaEncaminhamento;
+    private final AbaEncaminhamento abaEncaminhamento;
 
-    public EncaminhamentoWizard() {
+    @Inject
+    public EncaminhamentoWizard(AbaEncaminhamento abaEncaminhamento) {
+        this.abaEncaminhamento=abaEncaminhamento;
         LOGGER.info("[constructor] abaEncaminhamento=" + abaEncaminhamento + " this=" + this);
     }
 }
