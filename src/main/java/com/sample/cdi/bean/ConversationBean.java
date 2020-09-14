@@ -24,7 +24,7 @@ public class ConversationBean implements ObserverEncaminhamentoDto, Serializable
     private Conversation conversation;
 
     @Inject
-    private AbaEncaminhamento abaEncaminhamento;
+    private AbaEncaminhamento abaEncaminhamento=new AbaEncaminhamento(this);
 
     @Inject
     private HttpServletRequest request;
